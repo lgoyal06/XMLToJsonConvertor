@@ -1,0 +1,16 @@
+<xml>
+	<Address>
+		<AddressInfo type="street">
+			<Address1>D-1/126A</Address1>
+			<State StateCode="VIC">VICTORIA</State>
+		</AddressInfo>
+		<Type>Postal</Type>
+	</Address>
+	<Address>
+		<AddressInfo type="postal">
+			<Address1>D-1/126A</Address1>
+			<State StateCode="VIC">VICTORIA</State>
+		</AddressInfo>
+		<Type>Postal</Type>
+	</Address>
+</xml>
