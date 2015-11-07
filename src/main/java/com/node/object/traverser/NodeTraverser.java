@@ -56,5 +56,5 @@ public interface NodeTraverser<T> {
 	/*
 	 * Return Object in JSON Structure
 	 */
-	String getJsonStructure();
+	String getJsonStructure() throws Exception;
 }
