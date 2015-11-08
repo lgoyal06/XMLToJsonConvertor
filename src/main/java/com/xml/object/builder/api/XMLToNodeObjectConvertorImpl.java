@@ -37,31 +37,61 @@ public final class XMLToNodeObjectConvertorImpl implements
 			counter = indexTagEnd + 1;
 
 			/**
-			 * Code to check for </> closing tag.
+			 * 
+			 * Code to remove top element from the Stack in case closing of XML
+			 * Non Leaf Element is found
+			 * 
 			 */
-			if (xml.charAt(indexTagStart + 1) == '/'
+
+			if (xml.substring(indexTagStart, indexTagEnd + 1).contains("</")
 					&& (stack.getTopElement().equalsIgnoreCase(xml.substring(
 							indexTagStart + 2, indexTagEnd)))) {
 				stack.popTag();
 				return parentNode;
 			}
 
-			/**
-			 * Code for <> non closing tag.
-			 */
 			else {
+				/**
+				 * Creating the New Node and adding it as child of Parent Node
+				 */
 				Node newNode = new Node();
 				parentNode.getChild().add(newNode);
-
-				String[] splitter = addAttributesToElement(xml, indexTagStart,
-						indexTagEnd, newNode);
-
-				stack.pushTag(splitter[0]);
+				/**
+				 * 
+				 * Code to add Self closing Tags i.e. <a/> as Node Object
+				 * 
+				 */
+				if (xml.substring(indexTagStart, indexTagEnd + 1)
+						.contains("/>")) {
+					newNode.setVal(null);
+					newNode.setChild(null);
+					newNode.setTagName(xml.substring(indexTagStart + 1,
+							indexTagEnd - 1).trim());
+					continue;
+				}
+				/**
+				 * TODO Write generic Code That handles adding attributes to all
+				 * nodes for all XML Elements i.e. Leaf , composite and self
+				 * closing elements
+				 * 
+				 * 
+				 * Code to Populate Attribute for given XML Element
+				 * 
+				 * Move up
+				 * 
+				 * */
+				addAttributesToNode(xml, indexTagStart, indexTagEnd, newNode);
+				/**
+				 * Code to add Tag name of non self closing XML elements to Node
+				 * Object
+				 */
+				stack.pushTag(xml.substring(indexTagStart + 1, indexTagEnd)
+						.replaceAll(" ", ",").split(",")[0]);
 				secondIndexTagStart = xml.indexOf("<", counter);
 				secondIndexTagEnd = xml.indexOf(">", counter);
 				newNode.setTagName(stack.getTopElement());
 				/**
-				 * Code for leaf node
+				 * Code to set value for leaf element to Node Object
 				 **/
 				if (stack.top > 0
 						&& xml.substring(secondIndexTagStart + 2,
@@ -74,7 +104,8 @@ public final class XMLToNodeObjectConvertorImpl implements
 					counter = secondIndexTagEnd + 1;
 				}
 				/**
-				 * Child Node exists *
+				 * Recursive call to get Value of Composite Elements i.e. Non
+				 * Leaf Node
 				 **/
 				else {
 					buildLinkeNodeObject(newNode, stack, xml);
@@ -84,19 +115,32 @@ public final class XMLToNodeObjectConvertorImpl implements
 		return parentNode.getChild().get(0);
 	}
 
-	private String[] addAttributesToElement(String xml, int indexTagStart,
+	private void addAttributesToNode(String xml, int indexTagStart,
 			int indexTagEnd, Node newNode) {
+
+		// TODO : Write split logic based upon some pattern matching that
+		// should handle all type of values of
+		// attribute i.e.
+		// 1.'',
+		// 2."",
+		// 3.' ',
+		// 4." ",
+		// 5.
 		String[] attributesArray = xml
 				.substring(indexTagStart + 1, indexTagEnd).replaceAll(" ", ",")
 				.split(",");
 		for (int i = 1; i < attributesArray.length; ++i) {
-			if (attributesArray[i].trim().equals(""))
+			if (attributesArray[i].trim().equals("")) {
 				continue;
+			}
 			String[] attributekeyValueSplitter = attributesArray[i].split("=");
-			newNode.getAttribute().put(attributekeyValueSplitter[0].trim(),
-					attributekeyValueSplitter[1].trim());
+			newNode.getAttribute()
+					.put(attributekeyValueSplitter[0].trim(),
+							attributekeyValueSplitter[1] != null ? attributekeyValueSplitter[1]
+									.trim().replaceAll("\"", "")
+									.replaceAll("\'", "")
+									: "");
 		}
-		return attributesArray;
 	}
 
 	/**
@@ -121,7 +165,7 @@ public final class XMLToNodeObjectConvertorImpl implements
 
 	private class StackToStoreTags {
 
-		private List<String> tagNameList = new ArrayList<>();
+		public List<String> tagNameList = new ArrayList<>();
 		private int top = 0;
 
 		public String popTag() {
