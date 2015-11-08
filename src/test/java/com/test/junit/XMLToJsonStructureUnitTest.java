@@ -61,18 +61,24 @@ public class XMLToJsonStructureUnitTest {
 	}
 
 	@Test
-	public void testGivenXMLWithSelfClosingElementTagWhenUtilityRunExpectCorrectJsonAsResult() {
+	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
 		try {
-			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\"}}";
+			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
 					new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureInFormatWithSelfClosingTag.xml"));
 			Node rootNode = nodeObject.convertToNodeObject();
 			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
 					.toString());
+
 		} catch (Exception ex) {
 			Assert.assertTrue(false);
 		}
+	}
+
+	@Test
+	public void testGivenXMLWithSelfClosingElementTagWithAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
+		// TODO: Need to work on that
 	}
 
 	/**
@@ -80,16 +86,8 @@ public class XMLToJsonStructureUnitTest {
 	 */
 	@Test
 	public void testGivenXMLWithAttributesAtLeafNodeLevelsWhenUtilityRunExpectCorrectJsonAsResult() {
-		try {
-			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\"}}";
-			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
-					new File(
-							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLWithAttributesAtLeafNodeLevels.xml"));
-			Node rootNode = nodeObject.convertToNodeObject();
-			System.out.println(rootNode.getJsonStructure().toString());
-		} catch (Exception ex) {
-			Assert.assertTrue(false);
-		}
+		// TODO Apply test data of
+		// <a id='' id1=\"id\" id2=\"\" id3=\"d\" id4='d' id5=' ' id6=\" \" id7>
 	}
 
 }
