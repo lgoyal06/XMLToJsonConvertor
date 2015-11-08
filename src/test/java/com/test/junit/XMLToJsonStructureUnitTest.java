@@ -4,7 +4,6 @@ import java.io.File;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.xml.object.builder.api.Node;
@@ -30,11 +29,12 @@ public class XMLToJsonStructureUnitTest {
 	@Test
 	public void testGivenXMLWithListStructureFormattedWhenUtilityRunExpectJsonWithListStructureAsResult() {
 		try {
-			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}}}";
+			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}, \"Emails\":{\"Email\":[\"lgoyal06@gmail.com\", \"lalit.goyal@aon.com\"]}}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
 					new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureFormatted.xml"));
 			Node rootNode = nodeObject.convertToNodeObject();
+			System.out.println(rootNode.getJsonStructure().toString());
 			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
 					.toString());
 		} catch (Exception ex) {
@@ -45,7 +45,7 @@ public class XMLToJsonStructureUnitTest {
 	/**
 	 * TODO : Fix it
 	 */
-	@Ignore
+	@Test
 	public void testGivenXMLWithlementValueInMoreThanOneLineWhenUtilityRunExpectCorrectJsonAsResult() {
 		try {
 			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}}}";
@@ -78,7 +78,7 @@ public class XMLToJsonStructureUnitTest {
 	/**
 	 * TODO : Fix it
 	 */
-	@Ignore
+	@Test
 	public void testGivenXMLWithAttributesAtLeafNodeLevelsWhenUtilityRunExpectCorrectJsonAsResult() {
 		try {
 			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\"}}";

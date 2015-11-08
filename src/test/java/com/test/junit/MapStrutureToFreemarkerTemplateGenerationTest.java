@@ -2,7 +2,7 @@ package com.test.junit;
 
 import org.junit.Ignore;
 
-public class NodeObjectToFreemarkerTemplateGenerationTest {
+public class MapStrutureToFreemarkerTemplateGenerationTest {
 
 	@Ignore
 	public void test() {

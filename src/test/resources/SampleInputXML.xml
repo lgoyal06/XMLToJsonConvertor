@@ -15,4 +15,8 @@
 			<Type>Postal</Type>
 		</Address>
 	</Adresses>
+	<Emails>
+		<Email>lgoyal06@gmail.com</Email>
+		<Email>lalit.goyal@aon.com</Email>
+	</Emails>
 </xml>

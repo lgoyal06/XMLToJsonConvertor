@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.xml.object.builder.api.Node;
 import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
 
-public class NodeToMapStructureUnitTest {
+public class XMLToMapStructureUnitTest {
 
 	@Test
 	public void testGivenXMLWithAttributesNodesEceptForListNodesExpectFinalMapContainsAtributeInKeyValuePair() {
