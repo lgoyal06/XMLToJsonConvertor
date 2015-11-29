@@ -5,6 +5,7 @@ import java.io.File;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import com.xml.object.builder.api.Node;
 import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
@@ -43,6 +44,23 @@ public class XMLToJsonStructureUnitTest {
 	}
 
 	@Test
+	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
+		try {
+			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
+			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
+					new File(
+							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureInFormatWithSelfClosingTag.xml"));
+			Node rootNode = nodeObject.convertToNodeObject();
+			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
+					.toString());
+
+		} catch (Exception ex) {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Ignore
+	//TODO: Add the unit test for json creation using the nu.xom.Element Object
 	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
 		try {
 			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
