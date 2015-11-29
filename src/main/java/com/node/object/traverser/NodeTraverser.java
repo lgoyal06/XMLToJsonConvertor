@@ -1,8 +1,10 @@
 package com.node.object.traverser;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import nu.xom.Element;
 
 import com.xml.node.object.Iterator.Iterators;
 
@@ -21,7 +23,7 @@ public interface NodeTraverser<T> {
 	/*
 	 * Retrieve All Attributes of given element as Map
 	 */
-	HashMap<String, String> getAttributes(String element);
+	Map<String, String> getAttributes(String element);
 
 	/*
 	 * Retrieve specific value of an Attribute of given element
@@ -51,10 +53,25 @@ public interface NodeTraverser<T> {
 	/*
 	 * Return the result in HashMap Structure
 	 */
-	HashMap<String, Object> getMapStructure() throws Exception;
+	LinkedHashMap<String, Object> getMapStructure() throws Exception;
 
 	/*
 	 * Return Object in JSON Structure
 	 */
 	String getJsonStructure() throws Exception;
+
+	/*
+	 * Return the result in LinkedHashMap Structure
+	 * 
+	 * Utilize the Element ObjeCt from the nu.xom.Element API
+	 */
+
+	LinkedHashMap<String, Object> getMapStructure(Element tmpNode)
+			throws Exception;
+
+	/*
+	 * Return Object in JSON Structure
+	 */
+	String getJsonStructure(Element root) throws Exception;
+
 }

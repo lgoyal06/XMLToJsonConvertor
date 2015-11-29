@@ -42,24 +42,6 @@ public class XMLToJsonStructureUnitTest {
 		}
 	}
 
-	/**
-	 * TODO : Fix it
-	 */
-	@Test
-	public void testGivenXMLWithlementValueInMoreThanOneLineWhenUtilityRunExpectCorrectJsonAsResult() {
-		try {
-			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}}}";
-			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
-					new File(
-							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureInFormatWithElementValueInMoreThanOneLine.xml"));
-			Node rootNode = nodeObject.convertToNodeObject();
-			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
-					.toString());
-		} catch (Exception ex) {
-			Assert.assertTrue(false);
-		}
-	}
-
 	@Test
 	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
 		try {
@@ -74,20 +56,6 @@ public class XMLToJsonStructureUnitTest {
 		} catch (Exception ex) {
 			Assert.assertTrue(false);
 		}
-	}
-
-	@Test
-	public void testGivenXMLWithSelfClosingElementTagWithAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
-		// TODO: Need to work on that
-	}
-
-	/**
-	 * TODO : Fix it
-	 */
-	@Test
-	public void testGivenXMLWithAttributesAtLeafNodeLevelsWhenUtilityRunExpectCorrectJsonAsResult() {
-		// TODO Apply test data of
-		// <a id='' id1=\"id\" id2=\"\" id3=\"d\" id4='d' id5=' ' id6=\" \" id7>
 	}
 
 }

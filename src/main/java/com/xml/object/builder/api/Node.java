@@ -1,11 +1,17 @@
 package com.xml.object.builder.api;
 
+import groovy.json.JsonBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import nu.xom.Element;
+import nu.xom.Elements;
 
 import com.node.object.traverser.NodeTraverser;
 import com.xml.node.object.Iterator.Iterators;
@@ -20,13 +26,13 @@ public class Node implements NodeTraverser<Node> {
 	private List<Node> child = new ArrayList<>();
 	private String tagName;
 	private String val;
-	private HashMap<String, String> attribute = new HashMap<>();
+	private LinkedHashMap<String, String> attribute = new LinkedHashMap<>();
 
-	protected void setAttribute(HashMap<String, String> attribute) {
+	protected void setAttribute(LinkedHashMap<String, String> attribute) {
 		this.attribute = attribute;
 	}
 
-	protected HashMap<String, String> getAttribute() {
+	protected LinkedHashMap<String, String> getAttribute() {
 		return attribute;
 	}
 
@@ -75,7 +81,7 @@ public class Node implements NodeTraverser<Node> {
 	}
 
 	@Override
-	public HashMap<String, String> getAttributes(String xmlElement) {
+	public LinkedHashMap<String, String> getAttributes(String xmlElement) {
 		Stack<Node> stack = new Stack<Node>();
 		Node obj = this;
 		stack.push(obj);
@@ -91,7 +97,7 @@ public class Node implements NodeTraverser<Node> {
 					stack.push(tmpNode.getChild().get(child));
 			}
 		}
-		return new HashMap<>();
+		return new LinkedHashMap<>();
 	}
 
 	@Override
@@ -152,15 +158,15 @@ public class Node implements NodeTraverser<Node> {
 	 *         Assumption : Only Leaf Nodes can have attribute fields
 	 * @throws Exception
 	 */
-	public HashMap<String, Object> getMapStructure() throws Exception {
+	public LinkedHashMap<String, Object> getMapStructure() throws Exception {
 		Node tmpNode = this;
 		Object finalObj = buildMap(tmpNode);
-		if (finalObj instanceof HashMap<?, ?>) {
-			HashMap<String, Object> resultantMap = new HashMap<>();
+		if (finalObj instanceof LinkedHashMap<?, ?>) {
+			LinkedHashMap<String, Object> resultantMap = new LinkedHashMap<>();
 			resultantMap.put(this.getTagName(), finalObj);
 			return resultantMap;
 		} else if (finalObj instanceof String) {
-			HashMap<String, Object> map = new HashMap<>();
+			LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 			map.put(tmpNode.getTagName(), tmpNode.getVal());
 			return map;
 		} else {
@@ -173,9 +179,9 @@ public class Node implements NodeTraverser<Node> {
 		if (tmpNode.getChild() != null) {
 			List<Node> childNodeList = tmpNode.getChild();
 			if (childNodeList.size() == 1) {
-				HashMap<String, Object> map = new HashMap<>();
+				LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 				if (childNodeList.get(0).getAttribute().size() > 0) {
-					HashMap<String, Object> map1 = new HashMap<>();
+					LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
 					map1.putAll(childNodeList.get(0).getAttribute());
 					map1.put("Value", buildMap(childNodeList.get(0)));
 					map.put(childNodeList.get(0).getTagName(), map1);
@@ -191,14 +197,14 @@ public class Node implements NodeTraverser<Node> {
 					for (Node node : childNodeList) {
 						list.add(buildMap(node));
 					}
-					HashMap<String, Object> map1 = new HashMap<>();
+					LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
 					map1.put(childNodeList.get(0).getTagName(), list);
 					return map1;
 				} else {
-					HashMap<String, Object> map = new HashMap<>();
+					LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 					for (Node node : childNodeList) {
 						if (node.getAttribute().size() > 0) {
-							HashMap<String, Object> map1 = new HashMap<>();
+							LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
 							map1.putAll(node.getAttribute());
 							map1.put("Value", buildMap(node));
 							map.put(node.getTagName(), map1);
@@ -307,6 +313,101 @@ public class Node implements NodeTraverser<Node> {
 					+ "\"");
 		}
 		return mainMap;
+	}
+
+	public LinkedHashMap<String, Object> getMapStructure(Element tmpNode)
+			throws Exception {
+		Object finalObj = buildMap(tmpNode);
+		if (finalObj instanceof LinkedHashMap<?, ?>) {
+			LinkedHashMap<String, Object> resultantMap = new LinkedHashMap<String, Object>();
+			resultantMap.put(tmpNode.getLocalName(), finalObj);
+			return resultantMap;
+		} else if (finalObj instanceof String) {
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put(tmpNode.getLocalName(), setValue(tmpNode));
+			return map;
+		} else {
+			throw new Exception(
+					"XML Structure is either invalid or not supported by this Utility.");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private Object buildMap(Element tmpNode) {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		Elements childNodeList = tmpNode.getChildElements();
+		int childCount = childNodeList.size();
+		if (childCount > 0) {
+			if ((childCount == 1
+					&& childNodeList.get(0).getAttribute("dataType") != null && ("Array"
+						.equalsIgnoreCase(childNodeList.get(0)
+								.getAttribute("dataType").getValue())))
+					|| (childCount > 1 && childNodeList.get(0).getLocalName()
+							.equals(childNodeList.get(1).getLocalName()))) {
+				List<Object> list = new ArrayList<Object>();
+				for (int count = 0; count < childCount; ++count) {
+					list.add(buildMap(childNodeList.get(count)));
+				}
+				LinkedHashMap<String, Object> mapContainingListElements = new LinkedHashMap<String, Object>();
+				mapContainingListElements.put(childNodeList.get(0)
+						.getLocalName(), list);
+				return mapContainingListElements;
+			}
+			for (int count = 0; count < childCount; ++count) {
+				Element node = childNodeList.get(count);
+				if (node.getAttributeCount() > 0
+						&& (node.getAttributeCount() == 1 && !node
+								.getAttribute(0).getLocalName()
+								.equalsIgnoreCase("dataType"))) {
+					LinkedHashMap<String, Object> mapWithAttributeFields = new LinkedHashMap<String, Object>();
+					if (node.getChildElements().size() == 0) {
+						mapWithAttributeFields.put("value", buildMap(node));
+					} else {
+						mapWithAttributeFields
+								.putAll((Map<? extends String, ? extends Object>) buildMap(node));
+					}
+					for (int i = 0; i < node.getAttributeCount(); ++i) {
+						if (!node.getAttribute(i).getLocalName()
+								.equalsIgnoreCase("dataType")) {
+							mapWithAttributeFields.put(node.getAttribute(i)
+									.getLocalName(), node.getAttribute(i)
+									.getValue());
+						}
+					}
+					map.put(node.getLocalName(), mapWithAttributeFields);
+				} else {
+					map.put(node.getLocalName(), buildMap(node));
+				}
+			}
+			return map;
+		} else {
+			return setValue(tmpNode);
+		}
+	}
+
+	private Object setValue(Element tmpNode) {
+		if ("Integer".equalsIgnoreCase(tmpNode.getAttributeValue("dataType"))) {
+			if (tmpNode.getValue() != null
+					&& tmpNode.getValue().trim().equalsIgnoreCase("")) {
+				return null;
+			}
+			return tmpNode.getValue() != null ? Integer.valueOf(tmpNode
+					.getValue().replaceAll("(\\r|\\n|\\t)+", "")) : "";
+		}
+
+		if ("Boolean".equalsIgnoreCase(tmpNode.getAttributeValue("dataType"))) {
+			return tmpNode.getValue() != null ? Boolean.valueOf(tmpNode
+					.getValue().replaceAll("(\\r|\\n|\\t)+", "")) : "";
+		}
+
+		return tmpNode.getValue() != null ? tmpNode.getValue().replaceAll(
+				"(\\r|\\n|\\t)+", "") : "";
+	}
+
+	@Override
+	public String getJsonStructure(Element root) throws Exception {
+
+		return new JsonBuilder(getMapStructure(root)).toPrettyString();
 	}
 
 }

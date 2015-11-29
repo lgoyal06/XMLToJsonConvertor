@@ -1,22 +1,48 @@
-<xml>
-	<Adresses id="11">
-		<Address>
-			<AddressInfo type="street">
-				<Address1>D-1/126A</Address1>
-				<State StateCode="VIC">VICTORIA</State>
-			</AddressInfo>
-			<Type>Postal</Type>
-		</Address>
-		<Address>
-			<AddressInfo type="postal">
-				<Address1>D-1/126A</Address1>
-				<State StateCode="VIC">VICTORIA</State>
-			</AddressInfo>
-			<Type>Postal</Type>
-		</Address>
-	</Adresses>
+<Client>
+	<CRDId>2357265</CRDId>
+	<YearEstablished></YearEstablished>
+	<Contacts>
+		<Contact>
+			<Adresses>
+				<Address>
+					<AddressInfo>
+						<Address1>D-1/126A</Address1>
+						<State StateCode="VIC">VICTORIA</State>
+					</AddressInfo>
+					<Type>Postal</Type>
+				</Address>
+				<Address>
+					<AddressInfo>
+						<Address1>D-1/126A</Address1>
+						<State StateCode="VIC">VICTORIA</State>
+					</AddressInfo>
+					<Type>Postal</Type>
+				</Address>
+			</Adresses>
+		</Contact>
+	</Contacts>
+	<d>sdsdsd</d>
+	<InsuredNames>
+		<InsuredName>
+			<id>sdsdd</id>
+		</InsuredName>
+		<InsuredName>
+
+		</InsuredName>
+	</InsuredNames>
+	<ServiceTeam>
+		<Member>
+			<PersonId>1212</PersonId>
+			<Status>A</Status>
+		</Member>
+		<Member>
+			<PersonId>1212</PersonId>
+			<Status>A</Status>
+		</Member>
+	</ServiceTeam>
 	<Emails>
-		<Email>lgoyal06@gmail.com</Email>
-		<Email>lalit.goyal@aon.com</Email>
+		<Email>
+			<EmailTypes>dssds</EmailTypes>
+		</Email>
 	</Emails>
-</xml>
+</Client>
