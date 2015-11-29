@@ -66,15 +66,15 @@ public class Node implements NodeTraverser<Node> {
 		Node obj = this;
 		stack.push(obj);
 		while (stack.top > 0) {
-			Node tmpNode = stack.pop();
-			if (xmlElement.equalsIgnoreCase(tmpNode.getTagName())) {
-				return tmpNode.getVal();
+			Node element = stack.pop();
+			if (xmlElement.equalsIgnoreCase(element.getTagName())) {
+				return element.getVal();
 			}
-			if (tmpNode.getChild() == null) {
+			if (element.getChild() == null) {
 				continue;
 			} else {
-				for (int child = tmpNode.getChild().size() - 1; child >= 0; --child)
-					stack.push(tmpNode.getChild().get(child));
+				for (int child = element.getChild().size() - 1; child >= 0; --child)
+					stack.push(element.getChild().get(child));
 			}
 		}
 		return null;
@@ -86,15 +86,15 @@ public class Node implements NodeTraverser<Node> {
 		Node obj = this;
 		stack.push(obj);
 		while (stack.top > 0) {
-			Node tmpNode = stack.pop();
-			if (xmlElement.equalsIgnoreCase(tmpNode.getTagName())) {
-				return tmpNode.getAttribute();
+			Node element = stack.pop();
+			if (xmlElement.equalsIgnoreCase(element.getTagName())) {
+				return element.getAttribute();
 			}
-			if (tmpNode.getChild() == null) {
+			if (element.getChild() == null) {
 				continue;
 			} else {
-				for (int child = tmpNode.getChild().size() - 1; child >= 0; --child)
-					stack.push(tmpNode.getChild().get(child));
+				for (int child = element.getChild().size() - 1; child >= 0; --child)
+					stack.push(element.getChild().get(child));
 			}
 		}
 		return new LinkedHashMap<>();
@@ -159,15 +159,15 @@ public class Node implements NodeTraverser<Node> {
 	 * @throws Exception
 	 */
 	public LinkedHashMap<String, Object> getMapStructure() throws Exception {
-		Node tmpNode = this;
-		Object finalObj = buildMap(tmpNode);
+		Node element = this;
+		Object finalObj = buildMap(element);
 		if (finalObj instanceof LinkedHashMap<?, ?>) {
 			LinkedHashMap<String, Object> resultantMap = new LinkedHashMap<>();
 			resultantMap.put(this.getTagName(), finalObj);
 			return resultantMap;
 		} else if (finalObj instanceof String) {
 			LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-			map.put(tmpNode.getTagName(), tmpNode.getVal());
+			map.put(element.getTagName(), element.getVal());
 			return map;
 		} else {
 			throw new Exception(
@@ -175,9 +175,9 @@ public class Node implements NodeTraverser<Node> {
 		}
 	}
 
-	private Object buildMap(Node tmpNode) {
-		if (tmpNode.getChild() != null) {
-			List<Node> childNodeList = tmpNode.getChild();
+	private Object buildMap(Node element) {
+		if (element.getChild() != null) {
+			List<Node> childNodeList = element.getChild();
 			if (childNodeList.size() == 1) {
 				LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 				if (childNodeList.get(0).getAttribute().size() > 0) {
@@ -215,7 +215,7 @@ public class Node implements NodeTraverser<Node> {
 				}
 			}
 		}
-		return tmpNode.getVal() != null ? tmpNode.getVal().trim() : "";
+		return element.getVal() != null ? element.getVal().trim() : "";
 	}
 
 	private class Stack<T> {
@@ -239,15 +239,15 @@ public class Node implements NodeTraverser<Node> {
 
 	@Override
 	public String getJsonStructure() throws Exception {
-		Node tmpNode = this;
-		Object finalObj = buildJson(tmpNode);
+		Node element = this;
+		Object finalObj = buildJson(element);
 		if (finalObj instanceof HashMap<?, ?>) {
 			HashMap<String, Object> resultantMap = new HashMap<>();
 			resultantMap.put("\"" + this.getTagName() + "\"", finalObj);
 			return resultantMap.toString().replaceAll("=", ":");
 		} else if (finalObj instanceof String) {
 			HashMap<String, Object> map = new HashMap<>();
-			map.put("\"" + tmpNode.getTagName() + "\"", tmpNode.getVal());
+			map.put("\"" + element.getTagName() + "\"", element.getVal());
 			return map.toString();
 		} else {
 			throw new Exception(
@@ -255,9 +255,9 @@ public class Node implements NodeTraverser<Node> {
 		}
 	}
 
-	private Object buildJson(Node tmpNode) {
-		if (tmpNode.getChild() != null) {
-			List<Node> childNodeList = tmpNode.getChild();
+	private Object buildJson(Node element) {
+		if (element.getChild() != null) {
+			List<Node> childNodeList = element.getChild();
 			if (childNodeList.size() == 1) {
 				HashMap<String, Object> map = new HashMap<>();
 				if (childNodeList.get(0).getAttribute().size() > 0) {
@@ -300,7 +300,7 @@ public class Node implements NodeTraverser<Node> {
 				}
 			}
 		}
-		return "\"" + (tmpNode.getVal() != null ? tmpNode.getVal().trim() : "")
+		return "\"" + (element.getVal() != null ? element.getVal().trim() : "")
 				+ "\"";
 	}
 
@@ -315,16 +315,16 @@ public class Node implements NodeTraverser<Node> {
 		return mainMap;
 	}
 
-	public LinkedHashMap<String, Object> getMapStructure(Element tmpNode)
+	public LinkedHashMap<String, Object> getMapStructure(Element element)
 			throws Exception {
-		Object finalObj = buildMap(tmpNode);
+		Object finalObj = buildMap(element);
 		if (finalObj instanceof LinkedHashMap<?, ?>) {
 			LinkedHashMap<String, Object> resultantMap = new LinkedHashMap<String, Object>();
-			resultantMap.put(tmpNode.getLocalName(), finalObj);
+			resultantMap.put(element.getLocalName(), finalObj);
 			return resultantMap;
 		} else if (finalObj instanceof String) {
 			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-			map.put(tmpNode.getLocalName(), setValue(tmpNode));
+			map.put(element.getLocalName(), setValue(element));
 			return map;
 		} else {
 			throw new Exception(
@@ -333,9 +333,9 @@ public class Node implements NodeTraverser<Node> {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Object buildMap(Element tmpNode) {
+	private Object buildMap(Element element) {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		Elements childNodeList = tmpNode.getChildElements();
+		Elements childNodeList = element.getChildElements();
 		int childCount = childNodeList.size();
 		if (childCount > 0) {
 			if ((childCount == 1
@@ -381,26 +381,26 @@ public class Node implements NodeTraverser<Node> {
 			}
 			return map;
 		} else {
-			return setValue(tmpNode);
+			return setValue(element);
 		}
 	}
 
-	private Object setValue(Element tmpNode) {
-		if ("Integer".equalsIgnoreCase(tmpNode.getAttributeValue("dataType"))) {
-			if (tmpNode.getValue() != null
-					&& tmpNode.getValue().trim().equalsIgnoreCase("")) {
+	private Object setValue(Element element) {
+		if ("Integer".equalsIgnoreCase(element.getAttributeValue("dataType"))) {
+			if (element.getValue() != null
+					&& element.getValue().trim().equalsIgnoreCase("")) {
 				return null;
 			}
-			return tmpNode.getValue() != null ? Integer.valueOf(tmpNode
+			return element.getValue() != null ? Integer.valueOf(element
 					.getValue().replaceAll("(\\r|\\n|\\t)+", "")) : "";
 		}
 
-		if ("Boolean".equalsIgnoreCase(tmpNode.getAttributeValue("dataType"))) {
-			return tmpNode.getValue() != null ? Boolean.valueOf(tmpNode
+		if ("Boolean".equalsIgnoreCase(element.getAttributeValue("dataType"))) {
+			return element.getValue() != null ? Boolean.valueOf(element
 					.getValue().replaceAll("(\\r|\\n|\\t)+", "")) : "";
 		}
 
-		return tmpNode.getValue() != null ? tmpNode.getValue().replaceAll(
+		return element.getValue() != null ? element.getValue().replaceAll(
 				"(\\r|\\n|\\t)+", "") : "";
 	}
 
