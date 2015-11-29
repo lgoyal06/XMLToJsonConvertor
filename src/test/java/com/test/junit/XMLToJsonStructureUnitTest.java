@@ -4,8 +4,8 @@ import java.io.File;
 
 import junit.framework.Assert;
 
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import com.xml.object.builder.api.Node;
 import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
@@ -58,10 +58,10 @@ public class XMLToJsonStructureUnitTest {
 			Assert.assertTrue(false);
 		}
 	}
-	
+
 	@Ignore
-	//TODO: Add the unit test for json creation using the nu.xom.Element Object
-	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
+	// TODO: Add the unit test for json creation using the nu.xom.Element Object
+	public void todoTestViaElementObject() {
 		try {
 			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
