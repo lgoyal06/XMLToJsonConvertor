@@ -1,10 +1,7 @@
 package com.node.object.traverser;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import nu.xom.Element;
 
 import com.xml.node.object.Iterator.Iterators;
 
@@ -49,29 +46,5 @@ public interface NodeTraverser<T> {
 	 * Return the List for element in list format
 	 */
 	List<Map<?, ?>> getListElement(String element);
-
-	/*
-	 * Return the result in HashMap Structure
-	 */
-	LinkedHashMap<String, Object> getMapStructure() throws Exception;
-
-	/*
-	 * Return Object in JSON Structure
-	 */
-	String getJsonStructure() throws Exception;
-
-	/*
-	 * Return the result in LinkedHashMap Structure
-	 * 
-	 * Utilize the Element ObjeCt from the nu.xom.Element API
-	 */
-
-	LinkedHashMap<String, Object> getMapStructure(Element tmpNode)
-			throws Exception;
-
-	/*
-	 * Return Object in JSON Structure
-	 */
-	String getJsonStructure(Element root) throws Exception;
 
 }

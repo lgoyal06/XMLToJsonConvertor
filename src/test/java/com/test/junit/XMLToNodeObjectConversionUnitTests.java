@@ -1,6 +1,6 @@
 package com.test.junit;
 
-import org.junit.Test;
+import org.junit.Ignore;
 
 import com.xml.object.builder.api.Node;
 import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
@@ -9,7 +9,7 @@ public class XMLToNodeObjectConversionUnitTests {
 
 	static String sampleXML = "<xml><a  c='s' as='asasaS'   s=sd><b>sdfsd</b></a></xml>";
 
-	@Test
+	@Ignore
 	public void test() {
 
 		XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(

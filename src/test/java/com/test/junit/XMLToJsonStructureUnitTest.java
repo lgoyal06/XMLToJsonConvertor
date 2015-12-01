@@ -3,11 +3,14 @@ package com.test.junit;
 import java.io.File;
 
 import junit.framework.Assert;
+import nu.xom.Builder;
+import nu.xom.Document;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
+import com.xml.object.builder.api.LinkedTreeStructureObjectToJsonConvertorImpl;
 import com.xml.object.builder.api.Node;
+import com.xml.object.builder.api.XMLToMapConversionPreProcessor;
 import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
 
 public class XMLToJsonStructureUnitTest {
@@ -15,61 +18,26 @@ public class XMLToJsonStructureUnitTest {
 	@Test
 	public void testGivenXMLWithListStructureAsStringWhenUtilityRunExpectJsonWithListStructureAsResult() {
 		try {
-			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}}}";
+			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"StateCode\":\"VIC\",\"Value\":\"VICTORIA\"}},\"Type\":\"Postal\"},{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"StateCode\":\"VIC\",\"Value\":\"VICTORIA\"}},\"Type\":\"Postal\"}]}}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
 					new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureAsString.xml"));
 			Node rootNode = nodeObject.convertToNodeObject();
-			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
-					.toString());
-		} catch (Exception ex) {
-			Assert.assertTrue(false);
-		}
-	}
 
-	@Test
-	public void testGivenXMLWithListStructureFormattedWhenUtilityRunExpectJsonWithListStructureAsResult() {
-		try {
-			String expecedJson = "{\"xml\":{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}, {\"AddressInfo\":{\"State\":{\"Value\":\"VICTORIA\", \"StateCode\":\"VIC\"}, \"Address1\":\"D-1/126A\"}, \"Type\":\"Postal\"}]}, \"Emails\":{\"Email\":[\"lgoyal06@gmail.com\", \"lalit.goyal@aon.com\"]}}}";
-			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
-					new File(
-							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureFormatted.xml"));
-			Node rootNode = nodeObject.convertToNodeObject();
-			System.out.println(rootNode.getJsonStructure().toString());
-			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
-					.toString());
-		} catch (Exception ex) {
-			Assert.assertTrue(false);
-		}
-	}
+			Assert.assertEquals(
+					expecedJson.replaceAll("\"", "!").replaceAll("!", "\""),
+					new LinkedTreeStructureObjectToJsonConvertorImpl()
+							.getJsonStructure(rootNode));
 
-	@Test
-	public void testGivenXMLWithSelfClosingElementTagWithOutAttributesWhenUtilityRunExpectCorrectJsonAsResult() {
-		try {
-			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
-			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
-					new File(
-							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureInFormatWithSelfClosingTag.xml"));
-			Node rootNode = nodeObject.convertToNodeObject();
-			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
-					.toString());
-
-		} catch (Exception ex) {
-			Assert.assertTrue(false);
-		}
-	}
-
-	@Ignore
-	// TODO: Add the unit test for json creation using the nu.xom.Element Object
-	public void todoTestViaElementObject() {
-		try {
-			String expecedJson = "{\"xml\":{\"c\":\"\", \"a\":\"Hello\", \"b\":\"\", \"m\":\"\"}}";
-			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
-					new File(
-							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureInFormatWithSelfClosingTag.xml"));
-			Node rootNode = nodeObject.convertToNodeObject();
-			Assert.assertEquals(expecedJson, rootNode.getJsonStructure()
-					.toString());
+			Document doc = new Builder()
+					.build(new File(
+							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\SampleInputXML.xml"));
+			String expectedResult = "{\"Client\":{\"CRDId\":2357265,\"YearEstablished\":\"\",\"Contacts\":{\"Contact\":[{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"value\":\"VICTORIA\",\"StateCode\":\"VIC\"}},\"Type\":{\"value\":\"Postal\",\"Code\":\"null\"}},{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"value\":\"VICTORIA\",\"StateCode\":\"VIC\"}},\"Type\":{\"value\":\"Postal\",\"Code\":\"null\"}}]}}]},\"d\":\"sdsdsd\",\"InsuredNames\":{\"InsuredName\":[{\"id\":\"sdsdd\",\"Selected\":false},{\"Selected\":false}]},\"ServiceTeam\":{\"Member\":[{\"PersonId\":1212,\"Status\":{\"value\":\"A\",\"Code\":\"null\"}},{\"PersonId\":1212,\"Status\":{\"value\":\"A\",\"Code\":\"null\"}}]},\"Emails\":{\"Email\":[{\"EmailTypes\":\"dssds\"}]}}}";
+			String actualJson = new LinkedTreeStructureObjectToJsonConvertorImpl()
+					.getJsonStructure(new XMLToMapConversionPreProcessor()
+							.executePreProcessor(doc));
+			Assert.assertEquals(expectedResult.replaceAll("\"", "!")
+					.replaceAll("!", "\""), actualJson);
 
 		} catch (Exception ex) {
 			Assert.assertTrue(false);

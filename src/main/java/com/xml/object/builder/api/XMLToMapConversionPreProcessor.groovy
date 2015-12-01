@@ -5,13 +5,25 @@ import nu.xom.Document
 import nu.xom.Element
 import nu.xom.Nodes
 
+/**
+ * @author lalit goyal
+ * 
+ * Class to perform the Pre processing tasks on the Element object like setting 
+ * 
+ * 1.Datatype
+ * 2.Adding up the Default attribute
+ * 3.Adding up default child
+ *
+ */
 class XMLToMapConversionPreProcessor {
 
-	private static final Map<String,HashMap<String,String>> addDefaultChildMap=new TreeMap<String,HashMap<String,String>>();
-	private static final Map<String,HashMap<String,String>> ensureAttributeXpaths=new TreeMap<String,HashMap<String,String>>();
-	private static final Map<String,HashMap<String,String>> dataTypeXpaths=new TreeMap<String,HashMap<String,String>>();
+	private  Map<String,HashMap<String,String>> addDefaultChildMap=new TreeMap<String,HashMap<String,String>>();
+	private  Map<String,HashMap<String,String>> ensureAttributeXpaths=new TreeMap<String,HashMap<String,String>>();
+	private  Map<String,HashMap<String,String>> dataTypeXpaths=new TreeMap<String,HashMap<String,String>>();
 
-	static{
+
+	public Element executePreProcessor(Document doc){
+
 		addDefaultChildMap.put("//Client/InsuredNames/InsuredName", ["tagName":"Selected", "tagValue":"false"])
 
 		ensureAttributeXpaths.put("//Client/Contacts/Contact/Adresses/Address/Type", [ "attributeName":"Code", "attributeValue":"null"])
@@ -26,10 +38,6 @@ class XMLToMapConversionPreProcessor {
 		dataTypeXpaths.put("//Client/Contacts/Contact/Adresses/Address",[ "attributeName":"dataType", "attributeValue":"Array"])
 		dataTypeXpaths.put("//Client/Emails/Email",[ "attributeName":"dataType", "attributeValue":"Array"])
 		dataTypeXpaths.put("//Client/Contacts/Contact",[ "attributeName":"dataType", "attributeValue":"Array"])
-	}
-
-
-	public Element executePreProcessor(Document doc){
 
 		addDefaultChildMap.each{ key, value ->
 			Nodes childNodes = doc.query(key)
