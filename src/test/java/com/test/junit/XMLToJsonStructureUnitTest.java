@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.tree.structure.object.to.json.ElementObjectToJsonConvertorImpl;
 import com.tree.structure.object.to.json.ElementObjectToJsonConvertorPreProcessor;
 import com.tree.structure.object.to.json.NodeObjectToJsonConvertorImpl;
-import com.xml.to.tree.structure.object.builder.api.Node;
-import com.xml.to.tree.structure.object.builder.api.XMLToNodeObjectConvertorImpl;
+import com.xml.to.tree.structure.object.builder.Node;
+import com.xml.to.tree.structure.object.builder.XMLToNodeObjectConvertorImpl;
 
 public class XMLToJsonStructureUnitTest {
 
