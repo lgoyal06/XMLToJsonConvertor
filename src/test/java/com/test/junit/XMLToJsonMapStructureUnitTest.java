@@ -16,7 +16,7 @@ import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
 public class XMLToJsonMapStructureUnitTest {
 
 	@Test
-	public void testGivenXMLWhenConversionUtilityRunExpectCorrectMapStructure() {
+	public void testGivenXMLWhenConversionUtilityRunUsingNodeObjectExpectCorrectMapStructure() {
 		try {
 			Document doc = new Builder()
 					.build(new File(
@@ -28,6 +28,15 @@ public class XMLToJsonMapStructureUnitTest {
 									.executePreProcessor(doc)).toString();
 			Assert.assertEquals(expectedResult, actualJson);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testGivenXMLWhenConversionUtilityRunUisnfElementObjectExpectCorrectMapStructure() {
+		try {
+	
 			String expecedJson = "{xml={Adresses={Address=[{AddressInfo={Address1=D-1/126A, State={StateCode=VIC, Value=VICTORIA}}, Type=Postal}, {AddressInfo={Address1=D-1/126A, State={StateCode=VIC, Value=VICTORIA}}, Type=Postal}]}}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
 					new File(
