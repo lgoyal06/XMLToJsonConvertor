@@ -41,7 +41,7 @@ class XMLToMapConversionPreProcessor {
 
 		addDefaultChildMap.each{ key, value ->
 			Nodes childNodes = doc.query(key)
-			XMLToMapConversionPreProcessor.appendChildToElement(childNodes, value)
+			appendChildToElement(childNodes, value)
 		}
 
 		ensureAttributeXpaths.each{ key, value ->
