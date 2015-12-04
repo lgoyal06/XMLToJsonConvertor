@@ -8,10 +8,11 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import com.xml.object.builder.api.LinkedTreeStructureObjectToJsonConvertorImpl;
-import com.xml.object.builder.api.Node;
-import com.xml.object.builder.api.XMLToMapConversionPreProcessor;
-import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
+import com.tree.structure.object.to.json.ElementObjectToJsonConvertorImpl;
+import com.tree.structure.object.to.json.ElementObjectToJsonConvertorPreProcessor;
+import com.tree.structure.object.to.json.NodeObjectToJsonConvertorImpl;
+import com.xml.to.tree.structure.object.builder.api.Node;
+import com.xml.to.tree.structure.object.builder.api.XMLToNodeObjectConvertorImpl;
 
 public class XMLToJsonStructureUnitTest {
 
@@ -26,22 +27,22 @@ public class XMLToJsonStructureUnitTest {
 
 			Assert.assertEquals(
 					expecedJson.replaceAll("\"", "!").replaceAll("!", "\""),
-					new LinkedTreeStructureObjectToJsonConvertorImpl()
+					new NodeObjectToJsonConvertorImpl()
 							.getJsonStructure(rootNode));
 		} catch (Exception ex) {
 			Assert.assertTrue(false);
 		}
 	}
-	
-		@Test
+
+	@Test
 	public void testGivenXMLAsStringWhenUtilityRunViaLinkedElementObjectExpectJsonWithListStructureAsResult() {
 		try {
-				Document doc = new Builder()
+			Document doc = new Builder()
 					.build(new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\SampleInputXML.xml"));
 			String expectedResult = "{\"Client\":{\"CRDId\":2357265,\"YearEstablished\":\"\",\"Contacts\":{\"Contact\":[{\"Adresses\":{\"Address\":[{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"value\":\"VICTORIA\",\"StateCode\":\"VIC\"}},\"Type\":{\"value\":\"Postal\",\"Code\":\"null\"}},{\"AddressInfo\":{\"Address1\":\"D-1/126A\",\"State\":{\"value\":\"VICTORIA\",\"StateCode\":\"VIC\"}},\"Type\":{\"value\":\"Postal\",\"Code\":\"null\"}}]}}]},\"d\":\"sdsdsd\",\"InsuredNames\":{\"InsuredName\":[{\"id\":\"sdsdd\",\"Selected\":false},{\"Selected\":false}]},\"ServiceTeam\":{\"Member\":[{\"PersonId\":1212,\"Status\":{\"value\":\"A\",\"Code\":\"null\"}},{\"PersonId\":1212,\"Status\":{\"value\":\"A\",\"Code\":\"null\"}}]},\"Emails\":{\"Email\":[{\"EmailTypes\":\"dssds\"}]}}}";
-			String actualJson = new LinkedTreeStructureObjectToJsonConvertorImpl()
-					.getJsonStructure(new XMLToMapConversionPreProcessor()
+			String actualJson = new ElementObjectToJsonConvertorImpl()
+					.getJsonStructure(new ElementObjectToJsonConvertorPreProcessor()
 							.executePreProcessor(doc));
 			Assert.assertEquals(expectedResult.replaceAll("\"", "!")
 					.replaceAll("!", "\""), actualJson);
@@ -50,5 +51,4 @@ public class XMLToJsonStructureUnitTest {
 			Assert.assertTrue(false);
 		}
 	}
-
 }

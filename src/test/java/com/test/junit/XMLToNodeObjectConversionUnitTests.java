@@ -2,8 +2,8 @@ package com.test.junit;
 
 import org.junit.Ignore;
 
-import com.xml.object.builder.api.Node;
-import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
+import com.xml.to.tree.structure.object.builder.api.Node;
+import com.xml.to.tree.structure.object.builder.api.XMLToNodeObjectConvertorImpl;
 
 public class XMLToNodeObjectConversionUnitTests {
 

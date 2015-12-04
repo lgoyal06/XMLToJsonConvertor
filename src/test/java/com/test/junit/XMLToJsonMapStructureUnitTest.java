@@ -8,23 +8,24 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import com.xml.object.builder.api.LinkedTreeStructureObjectToJsonMapConvertorImpl;
-import com.xml.object.builder.api.Node;
-import com.xml.object.builder.api.XMLToMapConversionPreProcessor;
-import com.xml.object.builder.api.XMLToNodeObjectConvertorImpl;
+import com.tree.structure.object.to.jsonmap.ElementObjectToJsonMapConvertorImpl;
+import com.tree.structure.object.to.jsonmap.ElementObjectToJsonMapConvertorPreProcessor;
+import com.tree.structure.object.to.jsonmap.NodeObjectToJsonMapConvertorImpl;
+import com.xml.to.tree.structure.object.builder.api.Node;
+import com.xml.to.tree.structure.object.builder.api.XMLToNodeObjectConvertorImpl;
 
 public class XMLToJsonMapStructureUnitTest {
 
 	@Test
-	public void testGivenXMLWhenConversionUtilityRunUsingNodeObjectExpectCorrectMapStructure() {
+	public void testGivenXMLWhenConversionUtilityRunUsingElementObjectExpectCorrectMapStructure() {
 		try {
 			Document doc = new Builder()
 					.build(new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\SampleInputXML.xml"));
 			String expectedResult = "{Client={CRDId=2357265, YearEstablished=, Contacts={Contact=[{Adresses={Address=[{AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}, {AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}]}}]}, d=sdsdsd, InsuredNames={InsuredName=[{id=sdsdd, Selected=false}, {Selected=false}]}, ServiceTeam={Member=[{PersonId=1212, Status={value=A, Code=null}}, {PersonId=1212, Status={value=A, Code=null}}]}, Emails={Email=[{EmailTypes=dssds}]}}}";
-			String actualJson = new LinkedTreeStructureObjectToJsonMapConvertorImpl()
+			String actualJson = new ElementObjectToJsonMapConvertorImpl()
 					.getMapStructure(
-							new XMLToMapConversionPreProcessor()
+							new ElementObjectToJsonMapConvertorPreProcessor()
 									.executePreProcessor(doc)).toString();
 			Assert.assertEquals(expectedResult, actualJson);
 
@@ -32,19 +33,20 @@ public class XMLToJsonMapStructureUnitTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void testGivenXMLWhenConversionUtilityRunUisnfElementObjectExpectCorrectMapStructure() {
+	public void testGivenXMLWhenConversionUtilityRunUisnfNodeObjectExpectCorrectMapStructure() {
 		try {
-	
+
 			String expecedJson = "{xml={Adresses={Address=[{AddressInfo={Address1=D-1/126A, State={StateCode=VIC, Value=VICTORIA}}, Type=Postal}, {AddressInfo={Address1=D-1/126A, State={StateCode=VIC, Value=VICTORIA}}, Type=Postal}]}}}";
 			XMLToNodeObjectConvertorImpl nodeObject = new XMLToNodeObjectConvertorImpl(
 					new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConverter\\src\\test\\resources\\XMLListStructureAsString.xml"));
 			Node rootNode = nodeObject.convertToNodeObject();
-			Assert.assertEquals(expecedJson,
-					new LinkedTreeStructureObjectToJsonMapConvertorImpl()
-							.getMapStructure(rootNode).toString());
+			Assert.assertEquals(
+					expecedJson,
+					new NodeObjectToJsonMapConvertorImpl().getMapStructure(
+							rootNode).toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
