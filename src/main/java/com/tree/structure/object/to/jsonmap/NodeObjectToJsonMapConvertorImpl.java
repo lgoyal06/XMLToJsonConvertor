@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.xml.to.tree.structure.object.builder.api.Node;
+import com.xml.to.tree.structure.object.builder.Node;
 
 public class NodeObjectToJsonMapConvertorImpl implements
 		TreeStructureLinkedObjectToJsonMapConvertor<Node> {

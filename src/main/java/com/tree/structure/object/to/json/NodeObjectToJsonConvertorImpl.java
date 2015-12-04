@@ -1,7 +1,7 @@
 package com.tree.structure.object.to.json;
 
 import com.tree.structure.object.to.jsonmap.NodeObjectToJsonMapConvertorImpl;
-import com.xml.to.tree.structure.object.builder.api.Node;
+import com.xml.to.tree.structure.object.builder.Node;
 
 import groovy.json.JsonBuilder;
 
