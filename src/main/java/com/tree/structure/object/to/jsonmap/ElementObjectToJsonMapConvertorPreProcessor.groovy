@@ -30,7 +30,7 @@ class ElementObjectToJsonMapConvertorPreProcessor {
 		ensureAttributeXpaths.put("//Client/ServiceTeam/Member/Status", [ "attributeName":"Code", "attributeValue":"null"])
 
 		dataTypeXpaths.put("//Client/ServiceTeam/Member/PersonId",[ "attributeName":"dataType", "attributeValue":"Integer"])
-		dataTypeXpaths.put("//Client/CRDId",[ "attributeName":"dataType", "attributeValue":"Integer"])
+		dataTypeXpaths.put("//Client/Id",[ "attributeName":"dataType", "attributeValue":"Integer"])
 
 		dataTypeXpaths.put("//Client/InsuredNames/InsuredName/Selected",[ "attributeName":"dataType", "attributeValue":"Boolean"])
 

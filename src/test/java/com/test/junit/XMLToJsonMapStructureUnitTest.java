@@ -22,7 +22,7 @@ public class XMLToJsonMapStructureUnitTest {
 			Document doc = new Builder()
 					.build(new File(
 							"C:\\Users\\lalit goyal\\workspace\\xmlToJsonConvertorUtils\\src\\test\\resources\\SampleInputXML.xml"));
-			String expectedResult = "{Client={CRDId=2357265, YearEstablished=, Contacts={Contact=[{Adresses={Address=[{AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}, {AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}]}}]}, d=sdsdsd, InsuredNames={InsuredName=[{id=sdsdd, Selected=false}, {Selected=false}]}, ServiceTeam={Member=[{PersonId=1212, Status={value=A, Code=null}}, {PersonId=1212, Status={value=A, Code=null}}]}, Emails={Email=[{EmailTypes=dssds}]}}}";
+			String expectedResult = "{Client={Id=2357265, YearEstablished=, Contacts={Contact=[{Adresses={Address=[{AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}, {AddressInfo={Address1=D-1/126A, State={value=VICTORIA, StateCode=VIC}}, Type={value=Postal, Code=null}}]}}]}, d=sdsdsd, InsuredNames={InsuredName=[{id=sdsdd, Selected=false}, {Selected=false}]}, ServiceTeam={Member=[{PersonId=1212, Status={value=A, Code=null}}, {PersonId=1212, Status={value=A, Code=null}}]}, Emails={Email=[{EmailTypes=dssds}]}}}";
 			String actualJson = new ElementObjectToJsonMapConvertorImpl()
 					.getMapStructure(
 							new ElementObjectToJsonMapConvertorPreProcessor()
